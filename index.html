@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>たぬきカフェ 敬語マニュアル</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --matcha-green: #8C9E5E;
+            --matcha-light: #B5C99A;
+            --matcha-dark: #5A6B39;
+            --tanuki-brown: #8B5A2B;
+            --tanuki-light: #B78556;
+            --tanuki-dark: #5E3919;
+        }
+        
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #F8F7F3;
+            color: #333333;
+        }
+        
+        .bg-matcha {
+            background-color: var(--matcha-green);
+        }
+        
+        .bg-matcha-light {
+            background-color: var(--matcha-light);
+        }
+        
+        .bg-matcha-dark {
+            background-color: var(--matcha-dark);
+        }
+        
+        .bg-tanuki {
+            background-color: var(--tanuki-brown);
+        }
+        
+        .bg-tanuki-light {
+            background-color: var(--tanuki-light);
+        }
+        
+        .bg-tanuki-dark {
+            background-color: var(--tanuki-dark);
+        }
+        
+        .text-matcha {
+            color: var(--matcha-green);
+        }
+        
+        .text-tanuki {
+            color: var(--tanuki-brown);
+        }
+        
+        .border-matcha {
+            border-color: var(--matcha-green);
+        }
+        
+        .border-tanuki {
+            border-color: var(--tanuki-brown);
+        }
+        
+        .section-header {
+            background: linear-gradient(to right, var(--matcha-light), var(--tanuki-light));
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .section-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .section-content.active {
+            max-height: 5000px; /* Arbitrary large value */
+        }
+        
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .rotate-icon.active {
+            transform: rotate(180deg);
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--matcha-light);
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .quote-box {
+            background-color: #f8f5f0;
+            border-left: 4px solid var(--tanuki-brown);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .ng-text {
+            color: #e53e3e;
+            font-weight: bold;
+        }
+        
+        .ok-text {
+            color: #38a169;
+            font-weight: bold;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-option {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .quiz-option.selected {
+            background-color: var(--matcha-light);
+        }
+        
+        .quiz-option.correct {
+            background-color: #c6f6d5;
+            border-color: #38a169;
+        }
+        
+        .quiz-option.incorrect {
+            background-color: #fed7d7;
+            border-color: #e53e3e;
+        }
+        
+        .quiz-result {
+            background-color: #f8f5f0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+            }
+        }
+        
+        .page-header {
+            background: url('https://i.imgur.com/7BpvChR.png') center center no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(140, 158, 94, 0.7), rgba(139, 90, 43, 0.7));
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header py-12 text-center">
+        <div class="header-content">
+            <h1 class="text-3xl font-bold text-white mb-2">たぬきカフェ</h1>
+            <h2 class="text-4xl font-bold text-white">敬語マニュアル</h2>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <nav class="mb-8">
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h3 class="text-xl font-bold text-tanuki mb-4">目次</h3>
+                <ul class="space-y-2">
+                    <li><a href="#shocking" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-eye mr-2"></i> 「え、そんな人いるの!?」敬語が使えない大人たち
+                    </a></li>
+                    <li><a href="#mistakes" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-lightbulb mr-2"></i> 「これって敬語じゃないの？」よくある勘違い
+                    </a></li>
+                    <li><a href="#embarrassing" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-surprise mr-2"></i> 「恥ずかしい敬語大図鑑」笑われたくないあなたへ
+                    </a></li>
+                    <li><a href="#benefits" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-sparkles mr-2"></i> 「敬語マスターのメリット」魅力アップ・信頼される・成長できる
+                    </a></li>
+                    <li><a href="#structure" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-sync-alt mr-2"></i> 「敬語の仕組み」3分で理解する敬語の基本
+                    </a></li>
+                    <li><a href="#phrases" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-fire mr-2"></i> 「すぐに使える」接客フレーズ集
+                    </a></li>
+                    <li><a href="#situations" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-brain mr-2"></i> 「とっさの一言」場面別対応集
+                    </a></li>
+                    <li><a href="#troubles" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-exclamation-triangle mr-2"></i> 「ピンチ脱出」トラブル対応集
+                    </a></li>
+                    <li><a href="#practice" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-dumbbell mr-2"></i> 「習慣化のコツ」敬語を身につける自己練習法
+                    </a></li>
+                    <li><a href="#quiz" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-gamepad mr-2"></i> 「チャレンジ」敬語クイズ＆ゲーム
+                    </a></li>
+                    <li><a href="#tanuki" class="flex items-center text-tanuki hover:text-tanuki-dark">
+                        <i class="fas fa-edit mr-2"></i> 「たぬきカフェ特集」準備中・近日公開
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Section 1: 敬語が使えない大人たち -->
+        <section id="shocking" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-eye mr-2"></i> 「え、そんな人いるの!?」敬語が使えない大人たち
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">🔍 衝撃の事実</h3>
+                <p class="mb-4"><strong>30代・40代・50代なのに敬語が使えない人、実は多すぎる問題</strong></p>
+                <p class="mb-4">実は驚くべきことに、社会人経験が長い30代・40代・50代でも、正しい敬語が使えない人がたくさんいます。</p>
+                <ul class="list-disc pl-5 mb-4">
+                    <li>「お客様がお座りになられました」（二重敬語）</li>
+                    <li>「お客様がお見えになられました」（二重敬語）</li>
+                    <li>「お値段の方は1,000円になります」（「方」は不要）</li>
+                </ul>
+                <p class="mb-6">こんな間違いを平気でしている上司や先輩も...。あなたは彼らと同じ道を歩みますか？それとも今から正しい敬語を身につけますか？</p>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">💭 恥ずかしい現実</h3>
+                <p class="mb-4"><strong>敬語が使えないと、こう思われています</strong></p>
+                <ul class="list-disc pl-5 mb-4">
+                    <li>「育ちが悪いのかな...」</li>
+                    <li>「学がないんだろうな...」</li>
+                    <li>「この人に大事なお客様を任せられない...」</li>
+                    <li>「社会人としての基本ができていない...」</li>
+                </ul>
+                <p class="mb-6">だれも直接は言いませんが、敬語ができないと<strong>無言の評価</strong>をされています。</p>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">👉 今すぐチェック！あなたは大丈夫？</h3>
+                <ul class="list-none pl-5 mb-4">
+                    <li class="mb-2">✓ 「お客様、こちらでよろしかったでしょうか？」は正しい？</li>
+                    <li class="mb-2">✓ 「少々お待ちください」と「少々お待ちくださいませ」の違いは？</li>
+                    <li>✓ 「わかりました」ではなく何と言うべき？</li>
+                </ul>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 2: よくある勘違い -->
+        <section id="mistakes" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-lightbulb mr-2"></i> 「これって敬語じゃないの？」よくある勘違い
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">🚫 NGワードランキング TOP5</h3>
+                <ol class="list-decimal pl-5 mb-6">
+                    <li class="mb-4">
+                        <strong>「お客様がお座りください」</strong><br>
+                        → 実は「座る」の敬語は「お掛けになる」。「お座りください」は犬や子供に言うフレーズ。
+                    </li>
+                    <li class="mb-4">
+                        <strong>「〇〇の方」（「お会計の方はこちらです」）</strong><br>
+                        → 「方」は人を指す言葉。物事に「方」をつけるのは間違い。
+                    </li>
+                    <li class="mb-4">
+                        <strong>「よろしかったでしょうか？」</strong><br>
+                        → 過去形で尋ねているため不自然。「よろしいでしょうか」が正解。
+                    </li>
+                    <li class="mb-4">
+                        <strong>「〇〇になります」の乱用</strong><br>
+                        → 「これはケーキになります」は変。「これはケーキでございます」が正解。
+                    </li>
+                    <li class="mb-4">
+                        <strong>「わかりました」</strong><br>
+                        → ビジネスでは「かしこまりました」が基本。
+                    </li>
+                </ol>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🤔 なぜみんな間違える？</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li>テレビドラマでの間違った使い方</li>
+                    <li>SNSでの誤用の広がり</li>
+                    <li>「なんとなく丁寧そう」という思い込み</li>
+                </ul>
+                <p class="mb-4">でも大丈夫！このマニュアルで正しい敬語をマスターしましょう！</p>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 3: 恥ずかしい敬語大図鑑 -->
+        <section id="embarrassing" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-surprise mr-2"></i> 「恥ずかしい敬語大図鑑」笑われたくないあなたへ
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">🙈 やってしまいがちな二重敬語</h3>
+                <ul class="mb-6">
+                    <li class="mb-3">
+                        <span class="ng-text">❌「お客様がお見えになられました」</span><br>
+                        <span class="ok-text">⭕「お客様がお見えになりました」または「お客様が見えられました」</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="ng-text">❌「お客様がお帰りになられました」</span><br>
+                        <span class="ok-text">⭕「お客様がお帰りになりました」</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="ng-text">❌「お召し上がりになられますか？」</span><br>
+                        <span class="ok-text">⭕「お召し上がりになりますか？」または「召し上がられますか？」</span>
+                    </li>
+                </ul>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🙊 間違うと笑われる敬語</h3>
+                <ul class="mb-6">
+                    <li class="mb-3">
+                        <span class="ng-text">❌「ご検討してください」（相手の行動に「ご」はNG）</span><br>
+                        <span class="ok-text">⭕「検討してください」または「ご検討ください」</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="ng-text">❌「お伺いしてもよろしいでしょうか？」（「お伺いする」はすでに謙譲語）</span><br>
+                        <span class="ok-text">⭕「伺ってもよろしいでしょうか？」</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="ng-text">❌「私が存じ上げております」（「存じ上げる」の主語は「私」のみ）</span><br>
+                        <span class="ok-text">⭕「私が存じ上げております」または「当店が承知しております」</span>
+                    </li>
+                </ul>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🙉 なぜか広まっている変な敬語</h3>
+                <ul class="mb-6">
+                    <li class="mb-3">
+                        <span class="ng-text">❌「〜になります」の乱用</span><br>
+                        例:「こちらがお席になります」→<span class="ok-text">⭕「こちらがお席です/でございます」</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="ng-text">❌「〜の方」の乱用</span><br>
+                        例:「お会計の方はレジでお願いします」→<span class="ok-text">⭕「お会計はレジでお願いします」</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="ng-text">❌「〜させていただきます」の乱用</span><br>
+                        例:「ご説明させていただきます」（許可が必要ない場合）→<span class="ok-text">⭕「ご説明いたします」</span>
+                    </li>
+                </ul>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🎭 どう見られる？敬語間違いのイメージ調査</h3>
+                <p class="mb-3">「敬語を間違えている店員の印象」アンケート結果：</p>
+                <ul class="list-disc pl-5 mb-4">
+                    <li>「教育されていない」：68%</li>
+                    <li>「店全体の印象が下がる」：73%</li>
+                    <li>「また来たいと思わない」：45%</li>
+                </ul>
+                <p class="mb-4">正しい敬語は、あなたと店の印象を守る鎧なのです！</p>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 4: 敬語マスターのメリット -->
+        <section id="benefits" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-sparkles mr-2"></i> 「敬語マスターのメリット」魅力アップ・信頼される・成長できる
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">💰 仕事で輝ける！</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li><strong>信頼される</strong> → 「若いのにしっかりしている」と評価アップ</li>
+                    <li><strong>任されやすくなる</strong> → 重要なポジションや接客を任せてもらえる</li>
+                    <li><strong>キャリアアップの近道</strong> → 「この子、将来有望かも」と思われる</li>
+                    <li><strong>就職活動で差がつく</strong> → 面接で第一印象から好感度アップ</li>
+                </ul>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">👥 人間関係が広がる！</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li><strong>第一印象が良くなる</strong> → 「きちんとした人」と好感度アップ</li>
+                    <li><strong>職場の人間関係がスムーズに</strong> → 先輩・上司との距離が縮まる</li>
+                    <li><strong>トラブルが減る</strong> → 言葉遣いで誤解や不快感を与えにくくなる</li>
+                    <li><strong>SNSでの評価も上がる</strong> → 文章でのやりとりも上品に見える</li>
+                </ul>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">😎 自分自身が変わる！</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li><strong>自信がつく</strong> → 「どう話せばいいか」という不安がなくなる</li>
+                    <li><strong>大人の女性として見られる</strong> → 振る舞いまで洗練され、周りと差がつく</li>
+                    <li><strong>コミュニケーション力全体が上がる</strong> → どんな場面でも話せる自信が持てる</li>
+                    <li><strong>感じのいい人だと思われる</strong> → 丁寧な言葉遣いは「育ちの良さ」を感じさせる</li>
+                </ul>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🔥 今すぐ敬語を身につけるべき理由</h3>
+                <ol class="list-decimal pl-5 mb-6">
+                    <li><strong>一生使えるスキル</strong> → 学校では教えてくれない実践的な「大人の武器」</li>
+                    <li><strong>人生の選択肢が広がる</strong> → どんな業界でも評価される普遍的な能力</li>
+                    <li><strong>習慣化で身につく</strong> → 日々の小さな積み重ねで大きな差になる</li>
+                </ol>
+                
+                <p class="mb-4">敬語は「話し方のメイク」。外見だけでなく、言葉遣いも女性の魅力を左右します！</p>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 5: 敬語の仕組み -->
+        <section id="structure" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-sync-alt mr-2"></i> 「敬語の仕組み」3分で理解する敬語の基本
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">🧩 敬語の3つの種類</h3>
+                <ol class="mb-6">
+                    <li class="mb-4">
+                        <strong>丁寧語</strong>：「です・ます」で丁寧に話す基本形
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>例：行く→行きます、ある→あります、食べる→食べます</li>
+                        </ul>
+                    </li>
+                    <li class="mb-4">
+                        <strong>尊敬語</strong>：お客様の行動を高める言葉
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>例：行く→いらっしゃる、見る→ご覧になる、食べる→召し上がる</li>
+                        </ul>
+                    </li>
+                    <li class="mb-4">
+                        <strong>謙譲語</strong>：自分の行動をへりくだる言葉
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>例：行く→参ります、見る→拝見します、言う→申し上げます</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">⚡ 瞬間敬語変換術</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li>「〜する」→「〜いたします」（謙譲語の鉄板パターン）</li>
+                    <li>「〜です」→「〜でございます」（より丁寧な表現）</li>
+                    <li>「〜ですか？」→「〜でしょうか？」（柔らかい質問形）</li>
+                </ul>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🗣️ 敬語の発音・抑揚のコツ</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li><strong>テンポ</strong>：急ぎすぎず、ゆっくり丁寧に</li>
+                    <li><strong>声の高さ</strong>：やや高めの声で明るく</li>
+                    <li><strong>語尾</strong>：語尾を下げすぎない、疑問形は上げる</li>
+                    <li><strong>区切り</strong>：適度な間（ま）を入れて聞き取りやすく</li>
+                </ul>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">👤 敬語と一緒に大切な非言語要素</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li><strong>お辞儀</strong>：会釈（15度）・敬礼（30度）を使い分ける</li>
+                    <li><strong>表情</strong>：笑顔を基本に、相手の表情に合わせる</li>
+                    <li><strong>姿勢</strong>：背筋を伸ばし、前のめりにならない</li>
+                    <li><strong>手の位置</strong>：基本は体の前で軽く組む</li>
+                </ul>
+                
+                <p class="text-center mb-4">※動画解説は近日公開予定</p>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 6: 接客フレーズ集 -->
+        <section id="phrases" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-fire mr-2"></i> 「すぐに使える」接客フレーズ集
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">🚪 入店〜案内</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>使うタイミング</th>
+                                <th>NG</th>
+                                <th>OK</th>
+                                <th>ポイント</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>お客様が入店</td>
+                                <td class="ng-text">❌ いらっしゃい<br>❌ どうぞ</td>
+                                <td class="ok-text">⭕ いらっしゃいませ</td>
+                                <td>明るく、笑顔で</td>
+                            </tr>
+                            <tr>
+                                <td>人数確認</td>
+                                <td class="ng-text">❌ 何人？<br>❌ 何名様？</td>
+                                <td class="ok-text">⭕ 何名様でしょうか？</td>
+                                <td>「でしょうか」をつける</td>
+                            </tr>
+                            <tr>
+                                <td>席案内</td>
+                                <td class="ng-text">❌ こっちどうぞ<br>❌ お座りください</td>
+                                <td class="ok-text">⭕ こちらにお掛けくださいませ</td>
+                                <td>「お座り」は使わない</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🍽️ 注文〜提供</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>使うタイミング</th>
+                                <th>NG</th>
+                                <th>OK</th>
+                                <th>ポイント</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>メニュー渡し</td>
+                                <td class="ng-text">❌ はい、メニュー<br>❌ メニューどうぞ</td>
+                                <td class="ok-text">⭕ こちらメニューでございます</td>
+                                <td>両手で渡す</td>
+                            </tr>
+                            <tr>
+                                <td>注文確認</td>
+                                <td class="ng-text">❌ 注文は？<br>❌ 決まりました？</td>
+                                <td class="ok-text">⭕ ご注文はお決まりでしょうか？</td>
+                                <td>余裕を持った表情で</td>
+                            </tr>
+                            <tr>
+                                <td>注文受け</td>
+                                <td class="ng-text">❌ わかりました<br>❌ 了解です</td>
+                                <td class="ok-text">⭕ かしこまりました</td>
+                                <td>復唱して確認</td>
+                            </tr>
+                            <tr>
+                                <td>料理提供</td>
+                                <td class="ng-text">❌ はい、どうぞ<br>❌ お待たせ</td>
+                                <td class="ok-text">⭕ お待たせいたしました<br>⭕ こちらでございます</td>
+                                <td>品名も添える</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">💰 会計〜お見送り</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>使うタイミング</th>
+                                <th>NG</th>
+                                <th>OK</th>
+                                <th>ポイント</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>金額案内</td>
+                                <td class="ng-text">❌ 1,000円です<br>❌ 1,000円になります</td>
+                                <td class="ok-text">⭕ 1,000円でございます</td>
+                                <td>明確に金額を伝える</td>
+                            </tr>
+                            <tr>
+                                <td>支払い時</td>
+                                <td class="ng-text">❌ ありがとう<br>❌ サンキュー</td>
+                                <td class="ok-text">⭕ ありがとうございます</td>
+                                <td>お辞儀を添える</td>
+                            </tr>
+                            <tr>
+                                <td>お見送り</td>
+                                <td class="ng-text">❌ また来てね<br>❌ またどうぞ</td>
+                                <td class="ok-text">⭕ またのお越しをお待ちしております</td>
+                                <td>笑顔でドアまで見送る</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🔄 たぬき流・フレーズ変換表</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>言いがちな言葉</th>
+                                <th>たぬき流・正しい敬語</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>「はい」</td>
+                                <td>「かしこまりました」</td>
+                            </tr>
+                            <tr>
+                                <td>「ちょっと待って」</td>
+                                <td>「少々お待ちくださいませ」</td>
+                            </tr>
+                            <tr>
+                                <td>「わかりました」</td>
+                                <td>「承知いたしました」</td>
+                            </tr>
+                            <tr>
+                                <td>「ダメです」</td>
+                                <td>「申し訳ございませんが、〇〇となっております」</td>
+                            </tr>
+                            <tr>
+                                <td>「知りません」</td>
+                                <td>「確認してまいります」</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="bg-gray-100 p-4 rounded-lg text-center mb-4">
+                    <p class="font-bold">【動画教材スペース：実演映像を後日追加予定】</p>
+                </div>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 7: 場面別対応集 -->
+        <section id="situations" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-brain mr-2"></i> 「とっさの一言」場面別対応集
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">🤔 よくある質問への対応</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>お客様の質問</th>
+                                <th>対応フレーズ</th>
+                                <th>ポイント</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>「トイレどこ？」</td>
+                                <td>「トイレは奥の右手にございます」</td>
+                                <td>方向を手で示す</td>
+                            </tr>
+                            <tr>
+                                <td>「混んでる？」</td>
+                                <td>「ただいま少々お待ちいただく状況でございます」</td>
+                                <td>待ち時間の目安も伝える</td>
+                            </tr>
+                            <tr>
+                                <td>「勉強していっても大丈夫？」</td>
+                                <td>「申し訳ございませんが、混雑時はお席の長時間利用をご遠慮いただいております」</td>
+                                <td>笑顔で丁寧に伝える</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">😣 困った状況での神対応</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>状況</th>
+                                <th>対応フレーズ</th>
+                                <th>ポイント</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>品切れの説明<br>(シンプル版)</td>
+                                <td>「申し訳ございません、本日は完売しております。<br>こちらの○○はいかがでしょうか」</td>
+                                <td>代替品を提案する</td>
+                            </tr>
+                            <tr>
+                                <td>品切れの説明<br>(丁寧版)</td>
+                                <td>「せっかくお越しいただきましたのに、こちらは本日売り切れてしまいまして、誠に申し訳ございません。<br>よろしければ、こちらの○○もおすすめでございます」</td>
+                                <td>お詫びを先に伝える</td>
+                            </tr>
+                            <tr>
+                                <td>品切れの説明<br>(情報提供版)</td>
+                                <td>「申し訳ございません、本日の○○はございますのが△△と□□になっております。<br>特に△△は本日の一番人気でございます」</td>
+                                <td>選択肢を提示する</td>
+                            </tr>
+                            <tr>
+                                <td>長い待ち時間</td>
+                                <td>「お待たせして申し訳ございません。<br>あと約〇分ほどお待ちいただければと存じます」</td>
+                                <td>具体的な時間を伝える</td>
+                            </tr>
+                            <tr>
+                                <td>注文を聞き取れなかった</td>
+                                <td>「恐れ入りますが、もう一度お願いできますでしょうか」</td>
+                                <td>謝罪せず、丁寧に再度確認</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">✨ プロの技・一言添える接客</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>基本フレーズ</th>
+                                <th>+一言</th>
+                                <th>効果</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>「いらっしゃいませ」</td>
+                                <td>+「本日は雨の中ありがとうございます」</td>
+                                <td>気遣いが伝わる</td>
+                            </tr>
+                            <tr>
+                                <td>「こちらでございます」</td>
+                                <td>+「熱々ですので、どうぞお召し上がりください」</td>
+                                <td>商品価値を高める</td>
+                            </tr>
+                            <tr>
+                                <td>「かしこまりました」</td>
+                                <td>+「ただいまご用意いたします」</td>
+                                <td>安心感を与える</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="bg-gray-100 p-4 rounded-lg text-center mb-4">
+                    <p class="font-bold">【動画教材スペース：場面別対応の実演を後日追加予定】</p>
+                </div>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 8: トラブル対応集 -->
+        <section id="troubles" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-exclamation-triangle mr-2"></i> 「ピンチ脱出」トラブル対応集
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">⚡ クレーム対応の鉄板フレーズ</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>状況</th>
+                                <th>対応フレーズ</th>
+                                <th>ポイント</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>料理が遅い</td>
+                                <td>「大変お待たせして申し訳ございません。<br>ただいま確認してまいります」</td>
+                                <td>すぐに厨房確認</td>
+                            </tr>
+                            <tr>
+                                <td>料理が冷たい</td>
+                                <td>「申し訳ございません。<br>すぐに温かいものをお持ちいたします」</td>
+                                <td>新しく作り直す</td>
+                            </tr>
+                            <tr>
+                                <td>注文と違うものが来た</td>
+                                <td>「ご注文と異なるものをお出しして申し訳ございません。<br>すぐに正しいものをお持ちします」</td>
+                                <td>間違ったものは下げる</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold mb-2">補足説明：</p>
+                    <p>クレーム対応の詳細については、別途「たぬきカフェ クレーム対応マニュアル」で詳しく解説しています。</p>
+                    <p>完成次第、リンクをこちらに追加します：[準備中]</p>
+                    <p class="mt-2">基本的な対応の流れは「謝罪→原因確認→対応策提示→再発防止」です。</p>
+                    <p>どんな状況でも、まずは落ち着いて対応しましょう。</p>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">😡 怒っているお客様への対応</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>状況</th>
+                                <th>対応フレーズ</th>
+                                <th>対応方法</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>激怒しているお客様</td>
+                                <td>「大変申し訳ございません。<br>お話をお聞かせいただけますでしょうか」</td>
+                                <td>奥の席へ案内し、店長に連絡</td>
+                            </tr>
+                            <tr>
+                                <td>料理の質への不満</td>
+                                <td>「ご期待に沿えず申し訳ございません。<br>別のものをご用意させていただきます」</td>
+                                <td>代替品の提案と無料対応</td>
+                            </tr>
+                            <tr>
+                                <td>長時間の待ち時間</td>
+                                <td>「大変お待たせしてしまい申し訳ございません。<br>ただいま最優先でご用意しております」</td>
+                                <td>待ち時間の説明とお詫び</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🆘 緊急時の対応フレーズ</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>状況</th>
+                                <th>対応フレーズ</th>
+                                <th>対応方法</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>お客様の体調不良</td>
+                                <td>「大丈夫でしょうか。お水をお持ちします」</td>
+                                <td>店長に連絡し、必要に応じて救急車</td>
+                            </tr>
+                            <tr>
+                                <td>地震発生時</td>
+                                <td>「落ち着いて行動してください。係員の指示に従ってください」</td>
+                                <td>避難経路の案内</td>
+                            </tr>
+                            <tr>
+                                <td>火災発生時</td>
+                                <td>「火災が発生しました。こちらの非常口からお出ください」</td>
+                                <td>避難誘導を優先</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold mb-2">補足説明：</p>
+                    <p>緊急時の詳細な対応手順については、「たぬきカフェ 緊急時対応マニュアル」をご参照ください。</p>
+                    <p>完成次第、リンクをこちらに追加します：[準備中]</p>
+                    <p class="mt-2">緊急時は敬語よりも安全確保を優先してください。</p>
+                    <p>必ず店長または先輩スタッフに速やかに連絡することを忘れないでください。</p>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">💡 トラブル予防の秘訣</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li><strong>先回りの声掛け</strong>: 「お飲み物はいかがでしょうか？」</li>
+                    <li><strong>情報の先出し</strong>: 「ただいま混雑しており、10分ほどお時間をいただいております」</li>
+                    <li><strong>選択肢の提示</strong>: 「こちらのお席か、窓側のお席がございますが、いかがいたしましょうか」</li>
+                </ul>
+                
+                <div class="bg-gray-100 p-4 rounded-lg text-center mb-4">
+                    <p class="font-bold">【動画教材スペース：トラブル対応のロールプレイを後日追加予定】</p>
+                </div>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 9: 習慣化のコツ -->
+        <section id="practice" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-dumbbell mr-2"></i> 「習慣化のコツ」敬語を身につける自己練習法
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">🎯 敬語習得の段階</h3>
+                <ol class="list-decimal pl-5 mb-6">
+                    <li><strong>知識を得る</strong>：正しい敬語フレーズを知る</li>
+                    <li><strong>意識して使う</strong>：考えながら敬語を使ってみる</li>
+                    <li><strong>習慣化する</strong>：考えなくても自然に出るようになる</li>
+                    <li><strong>応用できる</strong>：状況に合わせて臨機応変に使える</li>
+                </ol>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold">今の一歩が未来の財産に</p>
+                    <p>今、敬語を身につけることは、あなたの一生の財産になります。</p>
+                    <p>どんな仕事でも役立つスキルです。</p>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">📝 自己練習の方法</h3>
+                
+                <h4 class="font-bold text-tanuki-dark mb-2">1. 音読トレーニング</h4>
+                <ul class="list-disc pl-5 mb-4">
+                    <li>敬語フレーズを声に出して10回以上繰り返す</li>
+                    <li>鏡の前で表情や姿勢も意識しながら練習</li>
+                    <li>スマホで録音して自分の話し方をチェック</li>
+                </ul>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold">ちょっと笑える音読事情</p>
+                    <p>家族の前で急に「いらっしゃいませ！」と練習していると、怪訝な顔をされるかも。お風呂や誰もいない河川敷でこっそり練習するのがオススメです。電車内での練習は周囲の視線が痛いので避けましょう(笑)</p>
+                </div>
+                
+                <h4 class="font-bold text-tanuki-dark mb-2">2. 反射力トレーニング</h4>
+                <ul class="list-disc pl-5 mb-4">
+                    <li>フレーズカードを作り、見たらすぐに言えるようにする</li>
+                    <li>普通語→敬語の変換を素早くできるようにする</li>
+                    <li>例：「わかった」→「かしこまりました」</li>
+                </ul>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold">反射の威力</p>
+                    <p>敬語は考えてから出すものではありません。「ご注文は...えーっと...」と30秒考えている間に、お客様は不安になります。「この店員、何か怖いな...」という顔になってしまうことも(笑)。反射で出る敬語が接客の安心感を生み出します。</p>
+                </div>
+                
+                <h4 class="font-bold text-tanuki-dark mb-2">3. シャドーイング練習（真似から始まる成長）</h4>
+                <ul class="list-disc pl-5 mb-4">
+                    <li>敬語の手本となる音声や動画に続いて発声</li>
+                    <li>リズムや抑揚も真似して自然な敬語を身につける</li>
+                </ul>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold">すべては真似から始まる</p>
+                    <p>どんな一流の接客スタッフも、最初は誰かの真似をしていました。真似することは恥ずかしいことではなく、成長の第一歩です。一流の料理人も、まずは師匠のレシピを完コピすることから始めるように、完璧な真似が独自のスタイルへの近道なのです。</p>
+                </div>
+                
+                <h4 class="font-bold text-tanuki-dark mb-2">4. 実践的シミュレーション</h4>
+                <ul class="list-disc pl-5 mb-4">
+                    <li>一人で接客の流れを演じてみる</li>
+                    <li>家族や友達に協力してもらい練習</li>
+                    <li>日常会話でも意識的に敬語を使う</li>
+                </ul>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold">重要：練習相手は選びましょう</p>
+                    <p>練習は必ず店長や先輩スタッフに依頼しましょう。どんなに仲良くなったお客様でも、「練習させて」と頼むのは絶対NGです。「いいよ、練習して」と言われても断りましょう。お客様は常にお客様であり、練習台ではありません。プロとしての線引きを忘れないでください。</p>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🕰️ 継続するコツ</h3>
+                <ul class="list-disc pl-5 mb-6">
+                    <li><strong>短時間でも毎日</strong>：1日5分でも毎日続ける</li>
+                    <li><strong>具体的な場面をイメージ</strong>：実際の接客シーンを想像しながら</li>
+                    <li><strong>目標を設定</strong>：「今週はこのフレーズを完璧にする」など</li>
+                    <li><strong>失敗を恐れない</strong>：間違えても大丈夫、修正して成長</li>
+                    <li><strong>記録する</strong>：上手く言えた・言えなかったフレーズをメモ</li>
+                </ul>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold">あなたの成長が見える</p>
+                    <p>毎日の小さな進歩が、気づけば大きな差になります。</p>
+                    <p>今日できなかったことが、明日できるようになる喜びを味わってください。</p>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🔍 習得度チェックポイント</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>レベル</th>
+                                <th>習得状態</th>
+                                <th>チェック方法</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>入門</td>
+                                <td>基本フレーズを覚えた</td>
+                                <td>「いらっしゃいませ」「かしこまりました」がスムーズに言える</td>
+                            </tr>
+                            <tr>
+                                <td>初級</td>
+                                <td>基本対応ができる</td>
+                                <td>メニュー提供〜会計までの基本フローをこなせる</td>
+                            </tr>
+                            <tr>
+                                <td>中級</td>
+                                <td>自然な敬語が使える</td>
+                                <td>考えなくても自然に敬語が出てくる</td>
+                            </tr>
+                            <tr>
+                                <td>上級</td>
+                                <td>臨機応変に対応できる</td>
+                                <td>想定外の状況でも適切な敬語で対応できる</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold">敬語は一生の財産</p>
+                    <p>今身につける敬語スキルは、アルバイトだけでなく、就職活動や将来のビジネスシーンでも必ず役立ちます。小さな努力が、大きな自信につながります。</p>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">📋 自己練習申し出のコツ</h3>
+                <p class="mb-4">練習したい場合は自ら進んで申し出ることが大切です。<br>「敬語の練習をさせていただけますでしょうか」と店長や先輩に声をかけてみましょう。<br>自主的に学ぶ姿勢は、必ず評価されます。</p>
+                
+                <div class="quote-box mb-6">
+                    <p class="font-bold">上達の秘訣は積極性</p>
+                    <p>「教えてもらおう」と待つよりも、「教えてください」と求める人が早く成長します。</p>
+                    <p>あなたの熱意が、周りを動かします。</p>
+                </div>
+                
+                <div class="bg-gray-100 p-4 rounded-lg text-center mb-4">
+                    <p class="font-bold">【動画教材スペース：効果的な練習方法の実演を後日追加予定】</p>
+                </div>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 10: 敬語クイズ＆ゲーム -->
+        <section id="quiz" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-gamepad mr-2"></i> 「チャレンジ」敬語クイズ＆ゲーム
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-tanuki mb-4">🎯 即答チャレンジ！</h3>
+                <p class="mb-4">次の言葉を敬語に直せるかな？3秒以内に答えよう！</p>
+                <ul class="list-none pl-5 mb-6">
+                    <li class="mb-2">1. 「食べる」→ <span class="answer-hidden" data-answer="「召し上がる」">？？？</span></li>
+                    <li class="mb-2">2. 「来る」→ <span class="answer-hidden" data-answer="「いらっしゃる」">？？？</span></li>
+                    <li class="mb-2">3. 「見る」→ <span class="answer-hidden" data-answer="「ご覧になる」">？？？</span></li>
+                    <li class="mb-2">4. 「言う」→ <span class="answer-hidden" data-answer="「おっしゃる」">？？？</span></li>
+                    <li>5. 「する」→ <span class="answer-hidden" data-answer="「なさる」">？？？</span></li>
+                </ul>
+                <button class="show-answer-btn bg-tanuki text-white py-2 px-4 rounded hover:bg-tanuki-dark transition mb-6" data-target="即答チャレンジ">答えを見る</button>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🎪 敬語変換ショー！</h3>
+                <p class="mb-4">普通の言葉を敬語に変えてみよう！</p>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>普通の言葉</th>
+                                <th>敬語Ver.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>「わかりました」</td>
+                                <td><span class="answer-hidden" data-answer="「かしこまりました」">？？？</span></td>
+                            </tr>
+                            <tr>
+                                <td>「ありがとう」</td>
+                                <td><span class="answer-hidden" data-answer="「ありがとうございます」">？？？</span></td>
+                            </tr>
+                            <tr>
+                                <td>「ちょっと待って」</td>
+                                <td><span class="answer-hidden" data-answer="「少々お待ちくださいませ」">？？？</span></td>
+                            </tr>
+                            <tr>
+                                <td>「名前は？」</td>
+                                <td><span class="answer-hidden" data-answer="「お名前をうかがってもよろしいでしょうか」">？？？</span></td>
+                            </tr>
+                            <tr>
+                                <td>「何食べる？」</td>
+                                <td><span class="answer-hidden" data-answer="「何をお召し上がりになりますか？」">？？？</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="show-answer-btn bg-tanuki text-white py-2 px-4 rounded hover:bg-tanuki-dark transition mb-6" data-target="敬語変換ショー">答えを見る</button>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🎭 〇×ゲーム！</h3>
+                <p class="mb-4">以下の文は正しいかな？間違いを見つけられるかな？</p>
+                <div id="true-false-quiz" class="mb-6">
+                    <div class="quiz-question mb-4">
+                        <p class="font-medium">1. 「お客様がお座りになられました」</p>
+                        <div class="flex mt-2">
+                            <div class="quiz-option mr-2 flex-1 text-center" data-correct="false">
+                                〇 正しい
+                            </div>
+                            <div class="quiz-option flex-1 text-center" data-correct="true">
+                                × 間違い
+                            </div>
+                        </div>
+                        <div class="quiz-explanation hidden mt-2 p-2 bg-gray-100 rounded">
+                            <p><strong>答え：×</strong> - 二重敬語です。「お座りになりました」か「座られました」が正解です。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question mb-4">
+                        <p class="font-medium">2. 「こちらのお席へどうぞ」</p>
+                        <div class="flex mt-2">
+                            <div class="quiz-option mr-2 flex-1 text-center" data-correct="true">
+                                〇 正しい
+                            </div>
+                            <div class="quiz-option flex-1 text-center" data-correct="false">
+                                × 間違い
+                            </div>
+                        </div>
+                        <div class="quiz-explanation hidden mt-2 p-2 bg-gray-100 rounded">
+                            <p><strong>答え：〇</strong> - 正しい敬語表現です。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question mb-4">
+                        <p class="font-medium">3. 「お会計の方はこちらです」</p>
+                        <div class="flex mt-2">
+                            <div class="quiz-option mr-2 flex-1 text-center" data-correct="false">
+                                〇 正しい
+                            </div>
+                            <div class="quiz-option flex-1 text-center" data-correct="true">
+                                × 間違い
+                            </div>
+                        </div>
+                        <div class="quiz-explanation hidden mt-2 p-2 bg-gray-100 rounded">
+                            <p><strong>答え：×</strong> - 「方」は人を指す言葉なので、物事に使うのは間違いです。「お会計はこちらです」が正解です。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question mb-4">
+                        <p class="font-medium">4. 「ご注文は以上でよろしいでしょうか」</p>
+                        <div class="flex mt-2">
+                            <div class="quiz-option mr-2 flex-1 text-center" data-correct="true">
+                                〇 正しい
+                            </div>
+                            <div class="quiz-option flex-1 text-center" data-correct="false">
+                                × 間違い
+                            </div>
+                        </div>
+                        <div class="quiz-explanation hidden mt-2 p-2 bg-gray-100 rounded">
+                            <p><strong>答え：〇</strong> - 正しい敬語表現です。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question mb-4">
+                        <p class="font-medium">5. 「少々お待ちしてください」</p>
+                        <div class="flex mt-2">
+                            <div class="quiz-option mr-2 flex-1 text-center" data-correct="false">
+                                〇 正しい
+                            </div>
+                            <div class="quiz-option flex-1 text-center" data-correct="true">
+                                × 間違い
+                            </div>
+                        </div>
+                        <div class="quiz-explanation hidden mt-2 p-2 bg-gray-100 rounded">
+                            <p><strong>答え：×</strong> - 「お」と「して」が重複しています。「少々お待ちください」が正解です。</p>
+                        </div>
+                    </div>
+                </div>
+                <button id="check-tf-answers" class="bg-tanuki text-white py-2 px-4 rounded hover:bg-tanuki-dark transition mb-6">回答を確認する</button>
+                
+                <div id="tf-quiz-result" class="quiz-result mb-6">
+                    <p class="font-bold mb-2">あなたの結果：<span id="tf-score">0</span>/5 正解！</p>
+                    <p id="tf-feedback"></p>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🧩 穴埋めクイズ！</h3>
+                <div class="mb-6">
+                    <div class="fill-blank-quiz">
+                        <div class="mb-4">
+                            <p class="mb-2">1. 「ご注文は（　　　　）でしょうか？」</p>
+                            <input type="text" class="fill-blank-input border p-2 w-full rounded" data-answer="お決まり" placeholder="答えを入力">
+                            <div class="fill-blank-feedback hidden mt-1"></div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p class="mb-2">2. 「申し訳（　　　　）、本日は完売しております」</p>
+                            <input type="text" class="fill-blank-input border p-2 w-full rounded" data-answer="ございません" placeholder="答えを入力">
+                            <div class="fill-blank-feedback hidden mt-1"></div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p class="mb-2">3. 「少々お待ち（　　　　）」</p>
+                            <input type="text" class="fill-blank-input border p-2 w-full rounded" data-answer="くださいませ" placeholder="答えを入力">
+                            <div class="fill-blank-feedback hidden mt-1"></div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p class="mb-2">4. 「またの（　　　　）をお待ちしております」</p>
+                            <input type="text" class="fill-blank-input border p-2 w-full rounded" data-answer="お越し" placeholder="答えを入力">
+                            <div class="fill-blank-feedback hidden mt-1"></div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p class="mb-2">5. 「お会計は（　　　　）でございます」</p>
+                            <input type="text" class="fill-blank-input border p-2 w-full rounded" data-answer="1,000円" placeholder="答えを入力">
+                            <div class="fill-blank-feedback hidden mt-1"></div>
+                        </div>
+                    </div>
+                    <button id="check-fill-answers" class="bg-tanuki text-white py-2 px-4 rounded hover:bg-tanuki-dark transition">回答を確認する</button>
+                </div>
+                
+                <div id="fill-quiz-result" class="quiz-result mb-6">
+                    <p class="font-bold mb-2">あなたの結果：<span id="fill-score">0</span>/5 正解！</p>
+                    <p id="fill-feedback"></p>
+                </div>
+                
+                <h3 class="text-lg font-bold text-tanuki mb-4">🏆 敬語マスターへの道！</h3>
+                <p class="mb-4">全てのクイズに答えられたら、あなたは敬語マスター入門編合格！<br>これからも日々の接客で敬語を使い続けて、自分のものにしていこう！</p>
+                
+                <div class="bg-gray-100 p-4 rounded-lg text-center mb-4">
+                    <p class="font-bold">【動画教材スペース：実践テスト映像を後日追加予定】</p>
+                </div>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 11: たぬきカフェ特集 -->
+        <section id="tanuki" class="mb-8">
+            <div class="section-header flex justify-between items-center p-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-edit mr-2"></i> 「たぬきカフェ特集」準備中・近日公開
+                </h2>
+                <i class="fas fa-chevron-down text-white rotate-icon"></i>
+            </div>
+            <div class="section-content bg-white rounded-b-lg shadow-md p-6">
+                <div class="flex flex-col items-center justify-center py-8">
+                    <i class="fas fa-tools text-tanuki text-5xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-tanuki mb-4">準備中</h3>
+                    <p class="text-center mb-6">このセクションでは、たぬきカフェ特有の接客フレーズやシチュエーション対応を紹介します。<br>メニュー説明やお店独自のサービスに関する敬語表現など、<br>たぬきカフェならではの接客のコツを、画像や動画とともに順次追加していく予定です。</p>
+                    <p class="text-center font-bold text-tanuki">お楽しみに！</p>
+                </div>
+                <a href="#menu" class="block text-right text-tanuki hover:text-tanuki-dark">
+                    <i class="fas fa-arrow-up mr-1"></i> メインメニューに戻る
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-tanuki-dark text-white py-6 px-4 rounded-lg text-center">
+            <p class="mb-2">たぬきカフェ 敬語マニュアル</p>
+            <p class="text-sm">© たぬきカフェ All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Modal template for images -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img id="modalImage" src="" alt="拡大画像" style="width: 100%;">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section toggle
+            const sectionHeaders = document.querySelectorAll('.section-header');
+            sectionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('.rotate-icon');
+                    content.classList.toggle('active');
+                    icon.classList.toggle('active');
+                });
+                
+                // Check if this section is linked in the URL
+                const sectionId = header.closest('section').id;
+                if (window.location.hash === '#' + sectionId) {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('.rotate-icon');
+                    content.classList.add('active');
+                    icon.classList.add('active');
+                    
+                    // Scroll to this section
+                    setTimeout(() => {
+                        header.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                }
+            });
+            
+            // Show answers buttons
+            const showAnswerBtns = document.querySelectorAll('.show-answer-btn');
+            showAnswerBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    const answers = document.querySelectorAll('.answer-hidden');
+                    answers.forEach(answer => {
+                        answer.textContent = answer.getAttribute('data-answer');
+                    });
+                    this.textContent = '答えを表示しました';
+                    this.disabled = true;
+                    this.classList.add('bg-gray-400');
+                    this.classList.remove('bg-tanuki', 'hover:bg-tanuki-dark');
+                });
+            });
+            
+            // True-False Quiz
+            const checkTFBtn = document.getElementById('check-tf-answers');
+            if (checkTFBtn) {
+                checkTFBtn.addEventListener('click', function() {
+                    const questions = document.querySelectorAll('#true-false-quiz .quiz-question');
+                    let score = 0;
+                    
+                    questions.forEach(question => {
+                        const options = question.querySelectorAll('.quiz-option');
+                        const explanation = question.querySelector('.quiz-explanation');
+                        let selectedOption = null;
+                        
+                        options.forEach(option => {
+                            if (option.classList.contains('selected')) {
+                                selectedOption = option;
+                                if (option.getAttribute('data-correct') === 'true') {
+                                    option.classList.add('correct');
+                                    score++;
+                                } else {
+                                    option.classList.add('incorrect');
+                                }
+                            } else if (option.getAttribute('data-correct') === 'true') {
+                                option.classList.add('correct');
+                            }
+                            option.classList.remove('hover:bg-gray-100');
+                            option.style.pointerEvents = 'none';
+                        });
+                        
+                        if (explanation) {
+                            explanation.classList.remove('hidden');
+                        }
+                    });
+                    
+                    const resultElement = document.getElementById('tf-quiz-result');
+                    const scoreElement = document.getElementById('tf-score');
+                    const feedbackElement = document.getElementById('tf-feedback');
+                    
+                    scoreElement.textContent = score;
+                    
+                    if (score === 5) {
+                        feedbackElement.textContent = '満点！あなたは敬語マスターの素質があります！';
+                    } else if (score >= 3) {
+                        feedbackElement.textContent = 'なかなか良い成績です！もう少し練習しましょう。';
+                    } else {
+                        feedbackElement.textContent = '基本をもう一度確認しましょう。練習あるのみです！';
+                    }
+                    
+                    resultElement.style.display = 'block';
+                    this.disabled = true;
+                    this.classList.add('bg-gray-400');
+                    this.classList.remove('bg-tanuki', 'hover:bg-tanuki-dark');
+                });
+                
+                // Add click event to options
+                const tfOptions = document.querySelectorAll('#true-false-quiz .quiz-option');
+                tfOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const questionDiv = this.closest('.quiz-question');
+                        const options = questionDiv.querySelectorAll('.quiz-option');
+                        
+                        options.forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        
+                        this.classList.add('selected');
+                    });
+                });
+            }
+            
+            // Fill in the blank quiz
+            const checkFillBtn = document.getElementById('check-fill-answers');
+            if (checkFillBtn) {
+                checkFillBtn.addEventListener('click', function() {
+                    const inputs = document.querySelectorAll('.fill-blank-input');
+                    let score = 0;
+                    
+                    inputs.forEach(input => {
+                        const userAnswer = input.value.trim();
+                        const correctAnswer = input.getAttribute('data-answer');
+                        const feedbackEl = input.nextElementSibling;
+                        
+                        feedbackEl.classList.remove('hidden');
+                        
+                        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                            input.classList.add('border-green-500');
+                            feedbackEl.textContent = '正解！';
+                            feedbackEl.classList.add('text-green-600');
+                            score++;
+                        } else {
+                            input.classList.add('border-red-500');
+                            feedbackEl.textContent = `不正解。正解は「${correctAnswer}」です。`;
+                            feedbackEl.classList.add('text-red-600');
+                        }
+                        
+                        input.disabled = true;
+                    });
+                    
+                    const resultElement = document.getElementById('fill-quiz-result');
+                    const scoreElement = document.getElementById('fill-score');
+                    const feedbackElement = document.getElementById('fill-feedback');
+                    
+                    scoreElement.textContent = score;
+                    
+                    if (score === 5) {
+                        feedbackElement.textContent = '満点！あなたは敬語マスターの素質があります！';
+                    } else if (score >= 3) {
+                        feedbackElement.textContent = 'なかなか良い成績です！もう少し練習しましょう。';
+                    } else {
+                        feedbackElement.textContent = '基本をもう一度確認しましょう。練習あるのみです！';
+                    }
+                    
+                    resultElement.style.display = 'block';
+                    this.disabled = true;
+                    this.classList.add('bg-gray-400');
+                    this.classList.remove('bg-tanuki', 'hover:bg-tanuki-dark');
+                });
+            }
+            
+            // Image modal functionality
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const closeModal = document.getElementsByClassName('close-modal')[0];
+            
+            // Close modal when clicking the × button
+            if (closeModal) {
+                closeModal.onclick = function() {
+                    modal.style.display = 'none';
+                }
+            }
+            
+            // Close modal when clicking outside the image
+            if (modal) {
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = 'none';
+                    }
+                }
+            }
+            
+            // Add click handlers to all images with data-modal attribute
+            const modalImages = document.querySelectorAll('img[data-modal="true"]');
+            modalImages.forEach(img => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', function() {
+                    modal.style.display = 'flex';
+                    modalImg.src = this.src;
+                });
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#menu') {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                        return;
+                    }
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        
+                        // If it's a section, expand it if it's not already expanded
+                        const header = targetElement.querySelector('.section-header');
+                        const content = targetElement.querySelector('.section-content');
+                        const icon = header.querySelector('.rotate-icon');
+                        
+                        if (!content.classList.contains('active')) {
+                            content.classList.add('active');
+                            icon.classList.add('active');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
